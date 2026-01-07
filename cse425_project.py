@@ -1,5 +1,7 @@
 
+# ============================================================================
 # IMPORTS
+# ============================================================================
 import os
 import json
 import pickle
@@ -50,7 +52,16 @@ class LyricsDataset(Dataset):
     """Dataset class for lyrics data - supports CSV and .pkl formats."""
     
     def __init__(self, data_path, max_features=5000, normalize=True, is_pickle=False, max_samples=1000):
+        """
+        Initialize dataset.
         
+        Args:
+            data_path: Path to dataset (directory for CSV or file path for .pkl)
+            max_features: Maximum number of TF-IDF features (for text data)
+            normalize: Whether to normalize features
+            is_pickle: If True, treat data_path as .pkl file path
+            max_samples: Maximum number of samples to use (default: 1000)
+        """
         self.data_path = data_path
         self.max_features = max_features
         self.normalize = normalize
@@ -703,7 +714,17 @@ class LyricsDataset(Dataset):
 
 
 def get_dataloader(data_path, batch_size=32, shuffle=True, max_features=5000, is_pickle=False, max_samples=1000):
+    """
+    Create DataLoader for lyrics dataset.
     
+    Args:
+        data_path: Path to dataset (directory for CSV or file path for .pkl)
+        batch_size: Batch size for DataLoader
+        shuffle: Whether to shuffle data
+        max_features: Maximum number of TF-IDF features (for text data)
+        is_pickle: If True, treat data_path as .pkl file path
+        max_samples: Maximum number of samples to use (default: 1000)
+    """
     dataset = LyricsDataset(data_path, max_features=max_features, is_pickle=is_pickle, max_samples=max_samples)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, num_workers=0)
     return dataloader, dataset
